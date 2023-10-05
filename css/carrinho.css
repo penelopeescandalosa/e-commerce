@@ -1,0 +1,144 @@
+@keyframes abre-msg {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+.animacao_mensagem_valor_minimo {
+    display: block !important;
+    animation-name: abre-msg;
+    animation-duration: 2s;
+    animation-fill-mode: forwards;
+}
+
+.btn-off {
+    pointer-events: none;
+    cursor: default;
+    opacity: 0.4;
+}
+
+#mensagem_valor_minimo {
+    display: none;
+    background-color: #cb3e5f;
+    padding: 15px 0;
+    text-align: center;
+    color: #FFF;
+    font-weight: 700;
+    font-size: 15px;
+    margin: -10px 0 25px 0;
+}
+
+.rotulo-motoboy {
+    font-size: 10px;
+    color: #39903c;
+}
+
+.d-none {
+    display: none;
+}
+
+
+
+
+
+
+
+
+.step {
+    border-color: #C1AB9E!important;
+  }
+  .ch-title-4 {
+    color: #39903c!important;
+  }
+  #coupon  .link {
+    color: #39903c!important;
+  }
+  #coupon .ch-icon {
+    color: #39903c!important;
+  }
+  
+  
+  
+  @keyframes anima_mensagem {
+    0% {background-color: #cb3f60;}
+    50% {background-color: #ad1e40;}
+    100% {background-color: #cb3f60;}
+  }
+  .texto-obs-entrega {
+    color: #ffffff;
+    font-weight: 600;
+  }
+  #voltar_pg {
+    font-size: 11px;
+    padding: 0!important;
+    width: 280px;
+    height: 36px;
+    background-color: #9dff00;
+    border: 1px solid #86da00;
+    border-bottom-width: 2px;
+    border-radius: 2px;
+    color: black;
+    font-weight: 700;
+    margin: 10px 0 0 0;
+}
+  .msg_entrega_muriae {
+    background-color: #958074;
+    color: #fff;
+    border: dashed 1px #fff;
+    border-radius: 8px;
+    padding: 4px 10px 4px 10px;
+    margin: 0 0 2px 0;
+    font-size: 10px;
+    /*
+    animation-name: anima_mensagem;
+    animation-duration: 2s;
+    animation-iteration-count: infinite;
+    animation-timing-function: linear;*/
+  }
+  .msg_entrega_muriae > h3 {
+    color: #fff;
+    margin-bottom: 3px;
+  }
+  .msg_entrega_muriae > small {
+    font-size: 90%;
+  }
+  textarea  {
+    border-color: #958074!important;
+    height: 85px!important; 
+  }
+  #obs_alternativa {
+    padding-bottom: 20px; 
+  }
+
+
+/*esconde a caixinha do recaptcha que ficava atrás do whatsapp*/
+  .grecaptcha-badge{
+    display: none!important;
+  }
+
+
+
+
+
+  /**/
+  #div_mobile > label, #div_desktop > label {
+    font-size: 0px;
+  }
+
+  #div_mobile > label > textarea, #div_desktop > label > textarea {
+    font-size: 14px;
+  }
+
+
+
+/*   #div_desktop > label {
+    font-size: 0px;
+  }
+
+  #div_desktop > label > textarea {
+    font-size: 14px;
+  } */
