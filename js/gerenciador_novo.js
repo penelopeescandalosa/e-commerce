@@ -19,7 +19,7 @@ var OBSERVADOR = null;//Observa quando um novo elemento aparece no DOM
 var OBSERVADOR_MODIFICACOES = null;//Observa modificações em elementos e seus filhos
 
 //url base dos arquivos
-const URL_BASE = 'https://images.tcdn.com.br/files/805466/themes/139/';
+const URL_BASE = 'https://cdn.jsdelivr.net/gh/penelopeescandalosa/e-commerce@latest/';
 
 
 
