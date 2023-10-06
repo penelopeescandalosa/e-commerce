@@ -119,8 +119,6 @@ function carregarItem(item){
         url = url + '?nocache=' + randInt() + '&';
     }
 
-    console.log(url);
-
     if(item['tipo'] === 'js'){
 
         $.getScript( url, function() {
