@@ -1,23 +1,8 @@
-add_on_load_all(function(){
-     if(/* window.location.href.includes('www.penelopeescandalosa.com.br/checkout') &&  */window.location.hash != '#carrinho'){
-          modificacoes_box_pagamento();
-     }
-});
+add_on_load_all(() => {
+     window.location.hash != '#carrinho' ? aguardaElemento('#payment span:contains("Maquina de cartão (Motoboy)")', modificacoes_box_pagamento) : null;
+ });
 
 function modificacoes_box_pagamento(){
-     
-     //verifica se as formas de pagamento já apareceram no DOM, caso contrário executa a função novamente em 1 segundo
-     if($('#payment span:contains("Maquina de cartão (Motoboy)")').length == 0){
-
-          setTimeout(modificacoes_box_pagamento, 1000);
-          //console.log('modificacoes_box_pagamento() adiado.');
-          return;
-          
-     }else{
-        //console.log('modificacoes_box_pagamento() executado.');
-     }
-
-
 
      const parametros = {
           'childNodes'      : ['FORM'],
@@ -37,7 +22,6 @@ function modificacoes_box_pagamento(){
      const label_dinheiro = $(seletor_dinheiro).html();
 
      $('#payment p:contains("Selecione uma forma de pagamento para finalizar seu pedido:")').text('Como você quer pagar?');//.css('display', 'none');
-
      $('h3[data-toggle="#facilitator"]').css('display', 'none');
   
     

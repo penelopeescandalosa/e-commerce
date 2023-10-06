@@ -1,37 +1,36 @@
-//resolve o problema dentro das paginas dos produtos que não dava para acessar o jQuery pelo $
-if(typeof $.fn == 'undefined'){
 
-    console.log('jQuery.noConflict()');
-    var $ = jQuery.noConflict();
-    
-}
+//url base dos arquivos
+//const URL_BASE = 'https://cdn.jsdelivr.net/gh/penelopeescandalosa/e-commerce@latest/';// JSDELIVR
+const URL_BASE = 'https://images.tcdn.com.br/files/805466/themes/143/';// TRAY
 
 //VARIÁVEIS RESPONSÁVEIS POR GERENCIAR O CARREGAMENTO DOS ARQUIVOS
 var ARQUIVOS = {};
 var AGUARDAR_CARREGAMENTO = [];
 var ARQUIVOS_CARREGADOS = false;
 var FN_ON_LOAD_ALL_EXECUTADA = false;
-
 var FUNCOES_ON_LOAD_ALL = [];
 
 //classes observadoras
 var OBSERVADOR = null;//Observa quando um novo elemento aparece no DOM
 var OBSERVADOR_MODIFICACOES = null;//Observa modificações em elementos e seus filhos
 
-//url base dos arquivos
-const URL_BASE = 'https://cdn.jsdelivr.net/gh/penelopeescandalosa/e-commerce@latest/';
 
 
 
 //URLS PARA VERIFICAR EM QUAL PÁGINA ESTÁ
 const url_carrinho = 'https://www.penelopeescandalosa.com.br/checkout';
 
+/* //resolve o problema dentro das paginas dos produtos que não dava para acessar o jQuery pelo $
+if(typeof $.fn == 'undefined'){
+
+    console.log('jQuery.noConflict()');
+    var $ = jQuery.noConflict();
+    
+} */
 
 
 ///////////////////////////////////////////////////////////////////////
 $( document ).ready(function() {
-
-    
 
     //add('js/verificar_mudancas_na_url.js', 'js');
     add('js/pageview.js', 'js');
@@ -42,10 +41,10 @@ $( document ).ready(function() {
         add('css/carrinho.css', 'css');
         add('js/carrinho/carrinho.js', 'js');
         
-        //add('js/carrinho/temporario.js', 'js');
-        //add('js/carrinho/valor_minimo_pedido.js', 'js');
-        //add('js/carrinho/modificacoes_checkout.js', 'js');
-        //add('js/carrinho/pedido_finalizado.js', 'js');
+        /* add('js/carrinho/temporario.js', 'js');
+        add('js/carrinho/valor_minimo_pedido.js', 'js');
+        add('js/carrinho/modificacoes_checkout.js', 'js');
+        add('js/carrinho/pedido_finalizado.js', 'js'); */
         add('js/carrinho/valor_minimo_pedido1.js', 'js');
         add('js/carrinho/modificacoes_checkout1.js', 'js');
         add('js/carrinho/temporario1.js', 'js');
@@ -157,17 +156,41 @@ function add_on_load_all(fn){
     FUNCOES_ON_LOAD_ALL.push(fn);
 }
 
-//descontinuada
-async function aguardaCarregamento(fn_load) {
+
+async function aguardaElemento(elemento, fn_load, paramentros={}) {
+
+    let {
+        tempo=1000,
+        tempo_maximo=0,
+        tempo_acumulado=0,
+        parametros_fn={},
+    } = paramentros;
     
     while (true) {
         
-        if (ARQUIVOS_CARREGADOS === true) {
-            fn_load();
+        //verifica se o elemento já existe no DOM
+        if ($(elemento).length > 0) {
+            fn_load(parametros_fn);
             break;
         }
+
+        //Verifica um tempo máximo foi atribuído
+        if(tempo_maximo > 0){
+
+            //Verifica se o tempo máximo foi excedido
+            if(tempo_acumulado >= tempo_maximo){
+                //console.log('Tempo ' + tempo_maximo + ' esgotado.');
+                break;
+            }else{
+                tempo_acumulado += tempo;
+            }
+
+        }
+
+        //console.log('aguardar mais ' + tempo + ' milésimos para executar.');
         
-        // Aguarda um tempo antes de verificar novamente
-        await new Promise(resolve => setTimeout(resolve, 50));
+        //Gera uma pausa na execussão do script no tempo determinado nos parametros
+        await new Promise(resolve => setTimeout(resolve, tempo));
+
     }
 }

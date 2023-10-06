@@ -1,12 +1,12 @@
 add_on_load_all(function() {
 
     if(window.location.hash == '#finalizacao'){
-        pedido_finalizado()
+        inicia_finalizacao()
     }
 
     $(window).on('hashchange', function() {
         if(window.location.hash == '#finalizacao'){
-            pedido_finalizado()
+            inicia_finalizacao()
         }
     });
 
@@ -14,10 +14,21 @@ add_on_load_all(function() {
 
 
 
-
 var paragrafo_desc_pagamento = null;
 var html_paragrafo_desc_pagamento = null;
-var pedido_finalizado_executada = false;
+var finalizacao_executada = false;
+
+function inicia_finalizacao(){
+
+    if(finalizacao_executada){ return; }
+    finalizacao_executada = true;
+
+    //aguarda carregamento
+    aguardaElemento('div[class="ch-list-text ch-margin-right-one"]', pedido_finalizado,{'tempo':100});
+}
+
+
+
 
 function pedido_finalizado(){
     
@@ -25,23 +36,6 @@ function pedido_finalizado(){
 
     //SALVA O ELEMENTO ONDE SERÁ APRESENTADO AS INFORMAÇÕES SOBRE O PAGAMENTO
     paragrafo_desc_pagamento = $('div[class="ch-list-text ch-margin-right-one"]');
-
-    if(paragrafo_desc_pagamento.length == 0){
-        setTimeout(pedido_finalizado, 1000);
-        return;
-    }
-
-    if(pedido_finalizado_executada){
-        return;
-    }
-
-    pedido_finalizado_executada = true;
-
-
-
-
-
-
 
     //SALVA O HTML PARA CASO PRECISE USAR NA FUNÇÃO pix_alternativo()
     html_paragrafo_desc_pagamento = paragrafo_desc_pagamento.html();
@@ -162,26 +156,21 @@ function html_loading(){
 function html_pix(copiaECola, base64QrCode){
 
     var str_html = '';
-    str_html += '    <div class="div-copiaECola">';
-
-    str_html += '    <h2>Use código \'Pix Copia e Cola\' abaixo no app do seu banco:</h2>';
-    str_html += '    <textarea id="chave" rows="2" readonly>';
-    str_html += '        aguarde...';
-    str_html += '    </textarea>';
-    str_html += '    <input id="copiarChave" type="button" value="COPIAR">';
-    str_html += '    <div class="descricao-pix">No app do seu banco, selecione a opção Pix Copia e Cola.</div>';
-
-    str_html += '    </div>';
-    str_html += '    <div class="div-qrCode">';
-
-    str_html += '    <h2>Ou escaneie o Pix QR CODE abaixo:</h2>';
-    str_html += '    <img class="img-pix" src="#">';
-    str_html += '    <br>';
-    str_html += '    <div class="descricao-pix">No app do seu banco, selecione a opção Pix Qr Code.</div>';
-
-    str_html += '    </div>';
-
-    str_html += '    <div class="div-em-caso-de-duvida">Em caso de dúvida, entre em contato conosco!</div>';
+        str_html += '    <div class="div-copiaECola">';
+        str_html += '    <h2>Use código \'Pix Copia e Cola\' abaixo no app do seu banco:</h2>';
+        str_html += '    <textarea id="chave" rows="2" readonly>';
+        str_html += '        aguarde...';
+        str_html += '    </textarea>';
+        str_html += '    <input id="copiarChave" type="button" value="COPIAR">';
+        str_html += '    <div class="descricao-pix">No app do seu banco, selecione a opção Pix Copia e Cola.</div>';
+        str_html += '    </div>';
+        str_html += '    <div class="div-qrCode">';
+        str_html += '    <h2>Ou escaneie o Pix QR CODE abaixo:</h2>';
+        str_html += '    <img class="img-pix" src="#">';
+        str_html += '    <br>';
+        str_html += '    <div class="descricao-pix">No app do seu banco, selecione a opção Pix Qr Code.</div>';
+        str_html += '    </div>';
+        str_html += '    <div class="div-em-caso-de-duvida">Em caso de dúvida, entre em contato conosco!</div>';
     
 
     var html = $('<div>').html( str_html );
@@ -195,13 +184,9 @@ function html_pix(copiaECola, base64QrCode){
 
 function evento_copiar(msg){
     $('#copiarChave').click(function(){
-            var textoCopiado = document.getElementById("chave");
-            textoCopiado.select();
-            textoCopiado.setSelectionRange(0, 99999);
-            document.execCommand("copy");
+            navigator.clipboard.writeText( $('#chave').val() );
             window.alert(msg);
     });
-
 }
 
 
@@ -213,9 +198,6 @@ function oculta_loadind(){
 }
 
 function pix_alternativo() {
-
-    /* console.log('pix_alternativo chamado');
-    return; */
 
     var arr_paragrafo = html_paragrafo_desc_pagamento.split('<br>');
 
