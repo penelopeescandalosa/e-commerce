@@ -1,7 +1,7 @@
 
 //url base dos arquivos
-//const URL_BASE = 'https://cdn.jsdelivr.net/gh/penelopeescandalosa/e-commerce@latest/';// JSDELIVR
-const URL_BASE = 'https://images.tcdn.com.br/files/805466/themes/143/';// TRAY
+const URL_BASE = 'https://cdn.jsdelivr.net/gh/penelopeescandalosa/e-commerce@ca7534c/';// JSDELIVR
+//const URL_BASE = 'https://images.tcdn.com.br/files/805466/themes/143/';// TRAY
 
 //VARIÁVEIS RESPONSÁVEIS POR GERENCIAR O CARREGAMENTO DOS ARQUIVOS
 var ARQUIVOS = {};
