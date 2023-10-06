@@ -2,7 +2,7 @@ jQuery( document ).ready(function() {
         jQuery("body").append(     jQuery("<script>").attr("src", "https://images.tcdn.com.br/files/805466/themes/139/js/gerenciador_novo.js?" + rand() )     );
 });
 
-
+//gera um numero randomico para contornar caches
 function rand() {
 
     const agora = new Date();
