@@ -3,12 +3,17 @@
 const URL_BASE = 'https://cdn.jsdelivr.net/gh/penelopeescandalosa/e-commerce@ca7534c/';// JSDELIVR
 //const URL_BASE = 'https://images.tcdn.com.br/files/805466/themes/143/';// TRAY
 
+const MINIFIER = true;
+const NOCACHE = false;
+
 //VARIÁVEIS RESPONSÁVEIS POR GERENCIAR O CARREGAMENTO DOS ARQUIVOS
 var ARQUIVOS = {};
 var AGUARDAR_CARREGAMENTO = [];
 var ARQUIVOS_CARREGADOS = false;
 var FN_ON_LOAD_ALL_EXECUTADA = false;
 var FUNCOES_ON_LOAD_ALL = [];
+
+
 
 //classes observadoras
 var OBSERVADOR = null;//Observa quando um novo elemento aparece no DOM
@@ -103,15 +108,28 @@ function executar(){
 
 function carregarItem(item){
 
+    let url = URL_BASE + item['url'];
+
+    if(MINIFIER){
+        const extencao = '.'+ item['tipo'];
+        url = url.slice(0, url.lastIndexOf(extencao)) + '.min' + extencao;
+    }
+
+    if(NOCACHE){
+        url = url + '?nocache=' + randInt() + '&';
+    }
+
+    console.log(url);
+
     if(item['tipo'] === 'js'){
 
-        $.getScript( URL_BASE + item['url'] + '?' + randInt() + '&', function() {
+        $.getScript( url, function() {
             itemCarregado(item['id']);
         });
 
     }else if(item['tipo'] === 'css'){
 
-        $("head").append(   $("<link>").attr({"rel":"stylesheet", "href": URL_BASE + item['url'] + "?" + randInt()})   );
+        $("head").append(   $("<link>").attr({"rel":"stylesheet", "href": url})   );
         itemCarregado(item['id']);
 
     }else{
