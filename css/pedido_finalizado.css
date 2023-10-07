@@ -94,3 +94,20 @@ ch-title-2, h1 {
         transform: rotate(360deg);
     }
 }
+
+
+/* WhatsApp no checkout */
+.fixed-contact.right-position {
+    left: auto;
+    right: 15px;
+}
+.fixed-contact {
+    position: fixed;
+    left: 15px;
+    bottom: 40px;
+    font-size: 1rem;
+    z-index: 9;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+}

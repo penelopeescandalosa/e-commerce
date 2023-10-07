@@ -1,22 +1,55 @@
+add_on_load_all(function() {
+
+    if(window.location.hash == '#finalizacao'){
+        inicia_finalizacao()
+    }
+
+    $(window).on('hashchange', function() {
+        if(window.location.hash == '#finalizacao'){
+            inicia_finalizacao()
+        }
+    });
+
+});
+
+
+
+var paragrafo_desc_pagamento = null;
+var html_paragrafo_desc_pagamento = null;
+var finalizacao_executada = false;
+
+function inicia_finalizacao(){
+
+    if(finalizacao_executada){ return; }
+    finalizacao_executada = true;
+
+    //aguarda carregamento
+    aguardaElemento('div[class="ch-list-text ch-margin-right-one"]', pedido_finalizado,{'tempo':500});
+}
+
+
+
+
 function pedido_finalizado(){
-    console.log('function pedido_finalizado()');
+    
+    //console.log('function pedido_finalizado()');
 
     //SALVA O ELEMENTO ONDE SERÁ APRESENTADO AS INFORMAÇÕES SOBRE O PAGAMENTO
-    window.paragrafo_desc_pagamento = $('div[class="ch-list-text ch-margin-right-one"]');
+    paragrafo_desc_pagamento = $('div[class="ch-list-text ch-margin-right-one"]');
 
     //SALVA O HTML PARA CASO PRECISE USAR NA FUNÇÃO pix_alternativo()
-    window.html_paragrafo_desc_pagamento = window.paragrafo_desc_pagamento.html();
+    html_paragrafo_desc_pagamento = paragrafo_desc_pagamento.html();
 
     //VERIFICA SE O PAGAMENTO É DO TIPO PIX
-    if(window.html_paragrafo_desc_pagamento.indexOf("PIX") != -1){
+    if(html_paragrafo_desc_pagamento.indexOf("PIX") != -1){
 
-        window.paragrafo_desc_pagamento.empty();
-        window.paragrafo_desc_pagamento.append( html_loading() );
+        paragrafo_desc_pagamento.empty();
+        paragrafo_desc_pagamento.append( html_loading() );
 
         inicia_pix();
 
         // ROLAR A PÁGINA PARA O INICIO DO TEXTO
-        var posicao_rolagem = window.paragrafo_desc_pagamento.offset().top-25;
+        var posicao_rolagem = paragrafo_desc_pagamento.offset().top-25;
         $('html, body').animate({ scrollTop: posicao_rolagem }, 1000);
 
     } else {
@@ -92,10 +125,10 @@ function pixQrCode(dados){
     //VERIFICA SE AJAX RETORNOU copiaecola E qrcode E GERA O RESULTADO
     if('copiaecola' in dados && 'qrcode' in dados){
 
-        window.paragrafo_desc_pagamento.append( 
+        paragrafo_desc_pagamento.append( 
             html_pix( dados['copiaecola'], dados['qrcode'] )
         );
-        oculta_loadind();
+        oculta_loading();
         evento_copiar("Código PIX copiado!\n\nNo app do seu banco cole no local escrito 'Pix Copie e cola'.");
 
     }else{
@@ -123,26 +156,21 @@ function html_loading(){
 function html_pix(copiaECola, base64QrCode){
 
     var str_html = '';
-    str_html += '    <div class="div-copiaECola">';
-
-    str_html += '    <h2>Use código \'Pix Copia e Cola\' abaixo no app do seu banco:</h2>';
-    str_html += '    <textarea id="chave" rows="2" readonly>';
-    str_html += '        aguarde...';
-    str_html += '    </textarea>';
-    str_html += '    <input id="copiarChave" type="button" value="COPIAR">';
-    str_html += '    <div class="descricao-pix">No app do seu banco, selecione a opção Pix Copia e Cola.</div>';
-
-    str_html += '    </div>';
-    str_html += '    <div class="div-qrCode">';
-
-    str_html += '    <h2>Ou escaneie o Pix QR CODE abaixo:</h2>';
-    str_html += '    <img class="img-pix" src="#">';
-    str_html += '    <br>';
-    str_html += '    <div class="descricao-pix">No app do seu banco, selecione a opção Pix Qr Code.</div>';
-
-    str_html += '    </div>';
-
-    str_html += '    <div class="div-em-caso-de-duvida">Em caso de dúvida, entre em contato conosco!</div>';
+        str_html += '    <div class="div-copiaECola">';
+        str_html += '    <h2>Use código \'Pix Copia e Cola\' abaixo no app do seu banco:</h2>';
+        str_html += '    <textarea id="chave" rows="2" readonly>';
+        str_html += '        aguarde...';
+        str_html += '    </textarea>';
+        str_html += '    <input id="copiarChave" type="button" value="COPIAR">';
+        str_html += '    <div class="descricao-pix">No app do seu banco, selecione a opção Pix Copia e Cola.</div>';
+        str_html += '    </div>';
+        str_html += '    <div class="div-qrCode">';
+        str_html += '    <h2>Ou escaneie o Pix QR CODE abaixo:</h2>';
+        str_html += '    <img class="img-pix" src="#">';
+        str_html += '    <br>';
+        str_html += '    <div class="descricao-pix">No app do seu banco, selecione a opção Pix Qr Code.</div>';
+        str_html += '    </div>';
+        str_html += '    <div class="div-em-caso-de-duvida">Em caso de dúvida, entre em contato conosco!</div>';
     
 
     var html = $('<div>').html( str_html );
@@ -156,17 +184,13 @@ function html_pix(copiaECola, base64QrCode){
 
 function evento_copiar(msg){
     $('#copiarChave').click(function(){
-            var textoCopiado = document.getElementById("chave");
-            textoCopiado.select();
-            textoCopiado.setSelectionRange(0, 99999);
-            document.execCommand("copy");
+            navigator.clipboard.writeText( $('#chave').val() );
             window.alert(msg);
     });
-
 }
 
 
-function oculta_loadind(){
+function oculta_loading(){
 
     $('.loading-pix').remove();
     texto_sobre_entrega_motoboy();
@@ -175,10 +199,7 @@ function oculta_loadind(){
 
 function pix_alternativo() {
 
-    /* console.log('pix_alternativo chamado');
-    return; */
-
-    var arr_paragrafo = window.html_paragrafo_desc_pagamento.split('<br>');
+    var arr_paragrafo = html_paragrafo_desc_pagamento.split('<br>');
 
     var texto_superior_sem_chave = arr_paragrafo[0].split(': ')[0];
     var chavePIX = arr_paragrafo[0].split(': ')[1];
@@ -192,12 +213,12 @@ function pix_alternativo() {
     texto_novo += 'Você deve acessar a área PIX em seu aplicativo de banco, e selecionar a opção chave PIX (Ou transferência).<br><br>' + texto_inferior;
 
 
-    window.paragrafo_desc_pagamento.html(texto_novo)
+    paragrafo_desc_pagamento.html(texto_novo)
 
-    window.paragrafo_desc_pagamento.attr('style','font-size: 15px;');
+    paragrafo_desc_pagamento.attr('style','font-size: 15px;');
 
     $('#chave').attr('value', chavePIX);
     evento_copiar("Chave PIX copiada!\n\nNo app do seu banco cole no local escrito 'Chave pix' (selecione a opção e-mail).");
-    oculta_loadind();
+    oculta_loading();
   
 }

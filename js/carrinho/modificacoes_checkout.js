@@ -1,3 +1,7 @@
+add_on_load_all(() => {
+     window.location.hash != '#carrinho' ? aguardaElemento('#payment span:contains("Maquina de cartão (Motoboy)")', modificacoes_box_pagamento) : null;
+});
+
 function modificacoes_box_pagamento(){
 
      const parametros = {
@@ -8,14 +12,17 @@ function modificacoes_box_pagamento(){
                subtree: true, // Observar mudanças em todo o subárvore do elemento
           }
      }
+     
+     
+     const seletor_maquina = '#payment span:contains("Maquina de cartão (Motoboy)")';
+     const seletor_dinheiro = '#payment span:contains("Dinheiro (Motoboy)")';
+     const span_motoboy = '<small class="rotulo-motoboy">(Motoboy)</small>';
 
-    const seletor_maquina = '#payment span:contains("Maquina de cartão (Motoboy)")';
-    const seletor_dinheiro = '#payment span:contains("Dinheiro (Motoboy)")';
+     const label_maquina = $(seletor_maquina).html();
+     const label_dinheiro = $(seletor_dinheiro).html();
 
-    const span_motoboy = '<small class="rotulo-motoboy">(Motoboy)</small>';
-    
-    const label_maquina = $(seletor_maquina).html();
-    const label_dinheiro = $(seletor_dinheiro).html();
+     $('#payment p:contains("Selecione uma forma de pagamento para finalizar seu pedido:")').text('Como você quer pagar?');//.css('display', 'none');
+     $('h3[data-toggle="#facilitator"]').css('display', 'none');
   
     
     //essa função é executada toda vez que o elemento #payment tem um novo elemento FORM criado
