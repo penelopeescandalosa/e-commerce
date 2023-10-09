@@ -2,17 +2,18 @@
 /////////////////////////////////////////////////////////////////////////////////////////////////////
 //VARIÁVEIS DE CONTROLE
 const MINIFIER = true;
-const NOCACHE = false;
+const NOCACHE = true;
 /////////////////////////////////////////////////////////////////////////////////////////////////////
 //url base dos arquivos
-const URL_BASE = 'https://cdn.jsdelivr.net/gh/penelopeescandalosa/e-commerce@218cf49/';// JSDELIVR
-//const URL_BASE = 'https://images.tcdn.com.br/files/805466/themes/143/';// TRAY
+//const URL_BASE = 'https://cdn.jsdelivr.net/gh/penelopeescandalosa/e-commerce@218cf49/';// JSDELIVR
+const URL_BASE = 'https://images.tcdn.com.br/files/805466/themes/143/';// TRAY
 /////////////////////////////////////////////////////////////////////////////////////////////////////
 
 //VARIÁVEIS RESPONSÁVEIS POR GERENCIAR O CARREGAMENTO DOS ARQUIVOS
 var ARQUIVOS = {};
 var AGUARDAR_CARREGAMENTO = [];
 var ARQUIVOS_CARREGADOS = false;
+var FN_CARREGAR_ARQUIVOS_EXECUTADA = false;
 var FN_ON_LOAD_ALL_EXECUTADA = false;
 var FUNCOES_ON_LOAD_ALL = [];
 
@@ -52,27 +53,30 @@ $( document ).ready(function() {
 
     }else{
 
+        add('https://www.penelopeescandalosa.com/site/js/gerenciador_saldao.js', 'js', false);
         //remover após promoção
         //add('js/remover-cache.js', 'js');
         //console.log('Fora do carrinho.');
     }
 
-    executar();// fn_load_all() será executada após carregar todos os arquivos
+    carregar_arquivos();// fn_load_all() será executada após carregar todos os arquivos
 
 });
 
 function fn_load_all(){
     
     //console.log('fn_load_all()');
-
+    
     OBSERVADOR = new Observar();
     OBSERVADOR_MODIFICACOES = new ObservarModificacoes();
-
+    
+    
     for(var fn of FUNCOES_ON_LOAD_ALL){
         fn();
     }
 
     FN_ON_LOAD_ALL_EXECUTADA = true;
+
 }
 
 
@@ -82,47 +86,60 @@ function add(url,tipo, esperarCarregar=true){
 
     const id = 'item' + randInt();
 
-    ARQUIVOS[id] = {'id':id, 'url':url, 'tipo':tipo, 'aguardarCarregar':esperarCarregar};
+    ARQUIVOS[id] = {'id':id, 'url':url, 'tipo':tipo, 'aguardarCarregar':esperarCarregar, 'incluido':false};
 
     esperarCarregar ? AGUARDAR_CARREGAMENTO.push(id) : null;
+
+    FN_CARREGAR_ARQUIVOS_EXECUTADA ? carregarItem(ARQUIVOS[id]) : null;
 
     return id;
 
 }
 
-function executar(){
+function carregar_arquivos(){
+
+    FN_CARREGAR_ARQUIVOS_EXECUTADA = true;
     
     for(var item in ARQUIVOS){
-        carregarItem(ARQUIVOS[item]);
+        !ARQUIVOS[item]['incluido'] ? carregarItem(ARQUIVOS[item]) : null;
     }
 }
 
 function carregarItem(item){
 
-    let url = URL_BASE + item['url'];
+    let url = item['url'].includes('http') ? item['url'] : URL_BASE + item['url'];
 
-    if(MINIFIER){
-        const extencao = '.'+ item['tipo'];
-        url = url.slice(0, url.lastIndexOf(extencao)) + '.min' + extencao;
+    if(MINIFIER && url.includes('jsdelivr')){
+
+            const extencao = '.'+ item['tipo'];
+            url = url.slice(0, url.lastIndexOf(extencao)) + '.min' + extencao;
+
     }
 
     if(NOCACHE){
-        url = url + '?nocache=' + randInt() + '&';
+
+            url = url + '?nocache=' + randInt() + '&';
+
     }
+
+    console.log(url);
+
+    //confirma que o carregamento do arquivo já foi chamado
+    ARQUIVOS[ item['id'] ]['incluido'] = true;
 
     if(item['tipo'] === 'js'){
 
-        $.getScript( url, function() {
-            itemCarregado(item['id']);
-        });
+            $.getScript( url, function() {
+                itemCarregado(item['id']);
+            });
 
     }else if(item['tipo'] === 'css'){
 
-        $("head").append(   $("<link>").attr({"rel":"stylesheet", "href": url})   );
-        itemCarregado(item['id']);
+            $("head").append(   $("<link>").attr({"rel":"stylesheet", "href": url})   );
+            itemCarregado(item['id']);
 
     }else{
-        console.log(item['url'] + 'Não pôde ser carregado, tipo: ' + item['tipo'] + ' não é válido.');
+            console.log(item['url'] + 'Não pôde ser carregado, tipo: ' + item['tipo'] + ' não é válido.');
     }
 
 }
@@ -131,16 +148,19 @@ function itemCarregado(id){
 
     //console.log(ARQUIVOS[id]['url'] + ' Carregado...');
 
-    //indice do item na lista de espera
-    const indice = jQuery.inArray( id, AGUARDAR_CARREGAMENTO );
+    if(ARQUIVOS[id]['aguardarCarregar']){
 
-    //remove o item da lista de espera
-    AGUARDAR_CARREGAMENTO.splice(indice, 1);
+            //indice do item na lista de espera
+            const indice = jQuery.inArray( id, AGUARDAR_CARREGAMENTO ); 
+            //remove o item da lista de espera
+            AGUARDAR_CARREGAMENTO.splice(indice, 1);
+
+    }
 
     //se a função load_all ainda não tiver sido executada, a lista de espera estiver vazia, e fn_load_all estiver setada, executa o código. 
-    if(AGUARDAR_CARREGAMENTO.length === 0){
-        fn_load_all();
+    if(AGUARDAR_CARREGAMENTO.length === 0 && !ARQUIVOS_CARREGADOS){
         ARQUIVOS_CARREGADOS = true;
+        fn_load_all();
     }
 
 }
@@ -158,9 +178,12 @@ function randInt() {
 function add_on_load_all(fn){
 
     //executa a função caso a função on_load_all já tenha sido executada
-    FN_ON_LOAD_ALL_EXECUTADA ? fn() : null;
+    if(FN_ON_LOAD_ALL_EXECUTADA){
+        fn();
+    }else{
+        FUNCOES_ON_LOAD_ALL.push(fn);
+    }
 
-    FUNCOES_ON_LOAD_ALL.push(fn);
 }
 
 
