@@ -122,8 +122,6 @@ function carregarItem(item){
 
     }
 
-    console.log(url);
-
     //confirma que o carregamento do arquivo já foi chamado
     ARQUIVOS[ item['id'] ]['incluido'] = true;
 
