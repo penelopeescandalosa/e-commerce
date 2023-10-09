@@ -4,9 +4,11 @@
 const MINIFIER = true;
 const NOCACHE = true;
 /////////////////////////////////////////////////////////////////////////////////////////////////////
-//url base dos arquivos
-const URL_RAIZ = 'https://cdn.jsdelivr.net/gh/penelopeescandalosa/e-commerce@fa9d174/';// JSDELIVR
+//url base dos arquivos//////////////////////////////////////////////////////////////////////////////
+
+const URL_RAIZ = 'https://cdn.jsdelivr.net/gh/penelopeescandalosa/e-commerce@0d606b8/';// JSDELIVR
 //const URL_RAIZ = 'https://images.tcdn.com.br/files/805466/themes/143/';// TRAY
+
 /////////////////////////////////////////////////////////////////////////////////////////////////////
 
 //VARIÁVEIS RESPONSÁVEIS POR GERENCIAR O CARREGAMENTO DOS ARQUIVOS
