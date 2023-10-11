@@ -45,7 +45,6 @@ function anima_wpp(){
     intervalo_animacao_wpp = setTimeout(anima_wpp ,6000);
 
     if(document.hidden){
-        console.log('pulo');
         return; 
      }
 

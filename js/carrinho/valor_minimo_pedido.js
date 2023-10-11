@@ -4,8 +4,6 @@ add_on_load_all(() => {
 
 function verifica_valor_minimo_pedido_checkout(){
 
-    console.log('verifica_valor_minimo_pedido_checkout() executado.');
-
     //valor mínimo que um pedido deve ter para o usuário conseguir fechar um pedido
     const VL_MINIMO_PEDIDO = 9.99;
 
@@ -28,8 +26,7 @@ function verifica_valor_minimo_pedido_checkout(){
         }
     }
 
-    const aa = OBSERVADOR_MODIFICACOES.addItem(elementoTotal, valorminimo, parametros);
-    console.log(aa);
+    OBSERVADOR_MODIFICACOES.addItem(elementoTotal, valorminimo, parametros);
 
     //faz a primeira chamada da função que verifica o valor 
     valorminimo();
