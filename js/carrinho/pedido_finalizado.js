@@ -183,10 +183,21 @@ function html_pix(copiaECola, base64QrCode){
 }
 
 function evento_copiar(msg){
-    $('#copiarChave').click(function(){
-            navigator.clipboard.writeText( $('#chave').val() );
-            window.alert(msg);
+
+    $('#copiarChave').on('click', function(){
+        $('#chave').select();
+        var chave = $('#chave').val();
+        
+        navigator.clipboard.writeText(chave)
+            .then(function() {
+                window.alert(msg);
+            })
+            .catch(function(error) {
+                window.alert('Ocorreu um erro ao tentar copiar a chave, tente copiar ela manualmente.');
+                console.log(error);
+            });
     });
+
 }
 
 
