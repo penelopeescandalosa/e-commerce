@@ -22,7 +22,7 @@ function modificacoes_box_pagamento(){
      const label_dinheiro = $(seletor_dinheiro).html();
 
      $('#payment p:contains("Selecione uma forma de pagamento para finalizar seu pedido:")').text('Como você quer pagar?');//.css('display', 'none');
-     $('h3[data-toggle="#facilitator"]').css('display', 'none');
+     $('h3[data-toggle="#facilitator"]').first().css('display', 'none');
   
     
     //essa função é executada toda vez que o elemento #payment tem um novo elemento FORM criado
@@ -33,7 +33,7 @@ function modificacoes_box_pagamento(){
           OBSERVADOR_MODIFICACOES.stopItem(id_observador);
 
           //abre o box pagamento
-          const elem_box_pagamento = $('[data-toggle="#facilitator"]').parent();
+          const elem_box_pagamento = $('[data-toggle="#facilitator"]').first().parent();
           !elem_box_pagamento.hasClass('active') ? elem_box_pagamento.addClass('active selected') : null;
 
           //altera o texto (Motoboy) nos dois itens
