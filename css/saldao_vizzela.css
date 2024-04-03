@@ -1,12 +1,16 @@
+/*
+            ESTILIZADO PARA SALDÃO VIZZELA
+*/
+
 .discount-line, .product .discount {
-    background: #000!important; /* #c50000 */ /* Cor de fundo do desconto */
+    background: #00bab3!important; /* #c50000 */ /* Cor de fundo do desconto */
  }
  
  .product .seal.featured {
    /*background-color: #b65169!important;*/ /* Cor de fundo da Tag */
    /* background-color: #c50000!important; */ /* Cor de fundo tag vermelho */
    /*background-color: #8e7db1!important;*/ /* Cor de fundo tag eudora */
-   background-color: #000!important; /* Cor de fundo tag preto */
+   background-color: #00bab3!important; /* Cor de fundo tag vizzela */
  }
  
  .fita_topo {
@@ -16,7 +20,7 @@
    right: 0;
    height: 20px;
    z-index: 10;
-   background-color: #000!important;
+   background-color: #00bab3!important;
    /* background-color: #b65169!important; */ /* cor da logo */
    /* background-color: #8e7db1!important; */ /* Cor de fundo tag eudora */
    color: #FFF;
@@ -42,7 +46,7 @@
  
  /* LAYOUT SETAS DO MENU */
  .list-nav>li a.sub .ico {
-    fill: #ec6585; 
+    fill: #00bab3; 
  }
  
  @media (max-width: 1007px){
@@ -64,5 +68,5 @@
  }
  .link_bloco_destaques {
     font-size: 0.8rem;
-   color: #da7789; 
+   color: #ad95c6; 
  }
