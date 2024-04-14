@@ -1,0 +1,62 @@
+.fita_topo {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 20px;
+      z-index: 10;
+      background-color: #b65169;
+      /* cor da logo */
+      color: #FFF;
+      text-align: center;
+      font-size: 11px;
+      padding: 3px 0 0 0;
+      box-shadow: 5px 1px 10px #00000047;
+}
+
+.atras_fita_topo {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 20px;
+      z-index: 9;
+      background-color: #fff7f5;
+}
+
+.header {
+      top: 20px !important;
+}
+
+@media (max-width: 1007px) {
+      .position-header .banner-full {
+            padding-top: 132px;
+      }
+}
+
+@media (min-width: 1008px) {
+      .position-header .banner-full {
+            padding-top: 20px;
+      }
+}
+
+/* LAYOUT BANNER EXTRA2 E 3 DA HOME */
+@media (max-width: 480px) {
+      .section-banners-center .item {
+            padding: 0px !important;
+      }
+}
+
+.link_bloco_destaques {
+      font-size: 0.8rem;
+      color: #da7789;
+}
+
+.fita_topo span {
+      color: #FFF !important;
+}
+
+#ch-app {
+      top: 20px !important;
+      position: relative;
+}
