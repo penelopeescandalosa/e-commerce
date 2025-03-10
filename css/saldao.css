@@ -1,14 +1,14 @@
 .discount-line, .product .discount {
-    background: #000!important; /* #c50000 */ /* Cor de fundo do desconto */
+    background: #c50000!important; /* #000 */ /* Cor de fundo do desconto */
  }
  
  .product .seal.featured {
    /*background-color: #b65169!important;*/ /* Cor de fundo da Tag */
-   /* background-color: #c50000!important; */ /* Cor de fundo tag vermelho */
+   background-color: #c50000!important; /* Cor de fundo tag vermelho
    /*background-color: #8e7db1!important;*/ /* Cor de fundo tag eudora */
-   background-color: #000!important; /* Cor de fundo tag preto */
+  /*  background-color: #000!important; */ /* Cor de fundo tag preto */
  }
- 
+
  .fita_topo {
    position: fixed;
    top: 0;
@@ -16,7 +16,8 @@
    right: 0;
    height: 20px;
    z-index: 10;
-   background-color: #000!important;
+   background-color: #c50000!important;
+   /* background-color: #000!important; */
    /* background-color: #b65169!important; */ /* cor da logo */
    /* background-color: #8e7db1!important; */ /* Cor de fundo tag eudora */
    color: #FFF;
