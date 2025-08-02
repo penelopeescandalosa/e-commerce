@@ -1,7 +1,8 @@
 ///////////////////////////////////////////////////////////////////////////////////////////////
 //VARIAVEIS DE CONFUGURACAO
 var DELAY_FITA = 4000;
-const URL_SALDAO = 'https://www.penelopeescandalosa.com.br/loja/busca.php?order=4&nocache=' + Math.floor(( new Date() ).getTime() * Math.random());
+//const URL_SALDAO = 'https://www.penelopeescandalosa.com.br/loja/busca.php?order=4&nocache=' + Math.floor(( new Date() ).getTime() * Math.random());
+const URL_SALDAO = 'https://www.penelopeescandalosa.com.br/loja/busca.php?order=5&nocache=' + Math.floor(( new Date() ).getTime() * Math.random());
 
 typeof FRASES == 'undefined' ? FRASES = [ 'VEM PRO SALDÃO PENELOPE ESCANDALOSA!', 'DIVERSOS PRODUTOS COM SUPER DESCONTO' ] : null;
 typeof NOME_SALDAO == 'undefined' ? NOME_SALDAO = 'SALDÃO' : null;
@@ -24,10 +25,15 @@ $('.featured:contains("Destaque"), .featured:contains("DESTAQUE")').text(NOME_SA
 $('h2[class="title-section"] span:contains("Destaques da loja")').html(NOME_SALDAO + ' <a href="'+URL_SALDAO+'">(Veja todos)</a>');
 
 
-//MOVE O CONTAINER SALDÃO PARA CIDA DE NOVIDADES
-var containerSaldao = $('h2:contains('+NOME_SALDAO+')').parent().parent().parent();
-var containerNovidades = $('h2:contains("Novidades")').parent().parent().parent();
-containerNovidades.before(containerSaldao);
+//MOVE O CONTAINER SALDÃO PARA CIMA DE NOVIDADES
+//var containerSaldao = $('h2:contains('+NOME_SALDAO+')').parent().parent().parent();
+//var containerNovidades = $('h2:contains("Novidades")').parent().parent().parent();
+//containerNovidades.before(containerSaldao);
+
+//REMOVENDO TODO O CONTEÚDO DA HOME ABAIXO DO BANNER
+$('div[class="content-home"]').remove();
+$('div[class="banner-info container"]').remove();
+$('div[class="newsletter flex color_true align-center justify-between"]').remove();
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
